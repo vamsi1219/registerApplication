@@ -1,0 +1,125 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>ID Card</title>
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/html2canvas/0.4.1/html2canvas.min.js"></script>
+
+    <style>
+        .id-card-container {
+            display: flex;
+            justify-content: center;
+            margin-top: 50px;
+        }
+
+        .id-card {
+            border: 2px solid #fc843b;
+            border-radius: 10px;
+            width: 270px;
+            background: linear-gradient(to bottom, #ffffff 40%, #fc843b 40%);
+            box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
+            text-align: left;
+            height: 50vh;
+        }
+
+        .id-card img.logo {
+            width: 265px;
+            height: 100px;
+            border-radius: 25px;
+        }
+
+        .id-card .photo {
+            width: 100px;
+            height: 100px;
+            border-radius: 50%;
+            border: 5px solid #fc843b;
+        }
+
+        .id-card button {
+            margin-top: 20px;
+            background-color: #17a2b8;
+            color: white;
+            border: none;
+            padding: 10px 20px;
+            border-radius: 5px;
+        }
+
+        .id-card button:hover {
+            background-color: #138496;
+        }
+
+        p {
+            margin-bottom: 0rem;
+            font-size: 13px;
+        }
+
+        .adress {
+            font-size: 10px;
+        }
+
+        hr {
+            margin: 5px;
+        }
+    </style>
+</head>
+<body>
+
+    <div class="id-card-container">
+        <div class="id-card" id="idCard">
+            <!-- Company Logo -->
+            <img src="cnclogo.png" alt="Company Logo" class="logo">
+
+            <!-- User Photo -->
+            <div class="d-flex justify-content-center">
+                <img src="profile.png" alt="User Photo" class="photo">
+            </div>
+
+            <!-- Unique ID -->
+            <p class="unique-id">Unique ID: <span id="uniqueId"></span></p>
+
+            <!-- Name, Qualification, and Course -->
+            <p id="name">Name: </p>
+            <p id="specialization">Qualification: </p>
+            <p id="course">Course: </p>
+            <hr>
+            <h6 class="adress">Address: S-3, Second Floor, Alankar Residency, near Narayana Jr. College, Danavai Peta, Rajamahendravaram, Andhra Pradesh 533103</h6>
+
+            <!-- Button to Download as Image -->
+            <button id="downloadBtn">Download as Image</button>
+        </div>
+    </div>
+
+    <script>
+       document.addEventListener("DOMContentLoaded", function() {
+    const uniqueId = sessionStorage.getItem('unique_id');
+    const name = sessionStorage.getItem('name');
+    const specialization = sessionStorage.getItem('specialization');
+    const course = sessionStorage.getItem('course');
+
+    if (uniqueId) {
+        document.getElementById('uniqueId').textContent = uniqueId;
+        document.getElementById('name').textContent = 'Name: ' + name;
+        document.getElementById('specialization').textContent = 'Qualification: ' + specialization;
+        document.getElementById('course').textContent = 'Course: ' + course;
+    }
+
+    document.getElementById("downloadBtn").addEventListener("click", function() {
+        html2canvas(document.getElementById("idCard"), {
+            willReadFrequently: true
+        }).then(function(canvas) {
+            var link = document.createElement('a');
+            link.href = canvas.toDataURL("image/png");
+            link.download = "id_card.png";
+            link.click();
+        }).catch(function(error) {
+            console.error("Error during canvas generation: ", error);
+        });
+    });
+});
+
+    </script>
+
+</body>
+</html>
